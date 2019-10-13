@@ -101,14 +101,6 @@ function createHandleTranspose(
   };
 }
 
-function createHandleRelease(
-  setRelease: React.Dispatch<React.SetStateAction<number>>,
-) {
-  return (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRelease(Number(event.target.value));
-  };
-}
-
 function createHandleKeyDown(
   logs: string[],
   setLogs: React.Dispatch<React.SetStateAction<string[]>>,
