@@ -19,6 +19,7 @@ export default function App() {
   );
   const [release, setRelease] = useState<number>(10);
   const [transpose, setTranspose] = useState<number>(0);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleKeyDown = useCallback(
     createHandleKeyDown(
       logs,
@@ -30,6 +31,7 @@ export default function App() {
     ),
     [logs, playingNotesMap],
   );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleKeyUp = useCallback(
     createHandleKeyUp(
       logs,
@@ -40,9 +42,13 @@ export default function App() {
     ),
     [logs, playingNotesMap],
   );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSelect = useCallback(createHandleSelect(setInstrument), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleRelease = useCallback(createHandleTranspose(setRelease), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleTranspose = useCallback(createHandleTranspose(setTranspose), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleActivate = useCallback(createActivate(instrument), [instrument]);
   const playingNotes = Object.keys(playingNotesMap)
     .filter(key => playingNotesMap[key])
