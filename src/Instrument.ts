@@ -1,4 +1,4 @@
-import { InstrumentName } from "soundfont-player";
+import type { InstrumentName } from "soundfont-player";
 
 export const instruments: InstrumentName[] = [
   "accordion",

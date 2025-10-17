@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from "react";
-import { instrument, Player, InstrumentName } from "soundfont-player";
+import type { Player, InstrumentName } from "soundfont-player";
+import { instrument } from "soundfont-player";
 import { keyboardEventToNote } from "./Keyboard";
-import { Note, noteToNumber, noteFromNumber, noteToString } from "./Note";
+import type { Note } from "./Note";
+import { noteToNumber, noteFromNumber, noteToString } from "./Note";
 import { defaultInstrument, instruments } from "./Instrument";
 import detect from "./Chord";
 
@@ -14,9 +16,8 @@ interface PlayingNotesMap {
 export default function App() {
   const [logs, setLogs] = useState<string[]>([]);
   const [playingNotesMap, setPlayingNotesMap] = useState<PlayingNotesMap>({});
-  const [instrument, setInstrument] = useState<InstrumentName>(
-    defaultInstrument,
-  );
+  const [instrument, setInstrument] =
+    useState<InstrumentName>(defaultInstrument);
   const [release, setRelease] = useState<number>(10);
   const [transpose, setTranspose] = useState<number>(0);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,8 +52,8 @@ export default function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleActivate = useCallback(createActivate(instrument), [instrument]);
   const playingNotes = Object.keys(playingNotesMap)
-    .filter(key => playingNotesMap[key])
-    .map(noteNumber => noteFromNumber(Number(noteNumber)));
+    .filter((key) => playingNotesMap[key])
+    .map((noteNumber) => noteFromNumber(Number(noteNumber)));
   return (
     <div onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} tabIndex={0}>
       <div>
@@ -62,7 +63,7 @@ export default function App() {
             <option key={idx} value={instrument}>
               {instrument
                 .split("_")
-                .map(s => (s ? s[0].toUpperCase() + s.substr(1) : s))
+                .map((s) => (s ? s[0].toUpperCase() + s.substr(1) : s))
                 .join(" ")}
             </option>
           ))}
@@ -81,7 +82,7 @@ export default function App() {
       </div>
       <p>
         Playing:
-        {playingNotes.map(n => noteToString(n)).join(", ") || "-"}
+        {playingNotes.map((n) => noteToString(n)).join(", ") || "-"}
       </p>
       <p>
         Guess:
@@ -179,7 +180,7 @@ async function stop(
   setLogs: React.Dispatch<React.SetStateAction<string[]>>,
 ) {
   setLogs([`${noteToString(note)} - STOP`, ...logs.splice(0, 16)]);
-  playingNotes.forEach(pn => pn.stop());
+  playingNotes.forEach((pn) => pn.stop());
 }
 
 function createActivate(instrumentName: InstrumentName) {
