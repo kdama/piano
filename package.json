@@ -29,7 +29,7 @@
   ],
   "homepage": "https://kdama.github.io/piano",
   "volta": {
-    "node": "16.20.2",
+    "node": "22.20.0",
     "yarn": "1.22.22"
   }
 }
