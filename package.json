@@ -27,5 +27,9 @@
     "last 2 Chrome versions",
     "last 2 iOS versions"
   ],
-  "homepage": "https://kdama.github.io/piano"
+  "homepage": "https://kdama.github.io/piano",
+  "volta": {
+    "node": "16.20.2",
+    "yarn": "1.22.22"
+  }
 }
