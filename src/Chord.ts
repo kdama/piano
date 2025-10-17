@@ -1,14 +1,15 @@
-import { Note, noteFromNumber, noteToNumber } from "./Note";
+import type { Note } from "./Note";
+import { noteFromNumber, noteToNumber } from "./Note";
 
 export default function detect(notes: Note[]): string {
   if (notes.length === 0) {
     return "N/A";
   }
-  const noteNumbers = notes.map(n => noteToNumber(n));
+  const noteNumbers = notes.map((n) => noteToNumber(n));
   const baseNoteNumber = Math.min(...noteNumbers);
   const baseNote = noteFromNumber(baseNoteNumber);
   const first = detectOnce(notes);
-  const second = detectOnce(notes.filter(n => n.key !== baseNote.key));
+  const second = detectOnce(notes.filter((n) => n.key !== baseNote.key));
   if (first.score < second.score) {
     return `${second.key}${second.label}/${baseNote.key} (${Math.ceil(
       second.score * 100,
@@ -18,18 +19,18 @@ export default function detect(notes: Note[]): string {
 }
 
 function detectOnce(notes: Note[]) {
-  const noteNumbers = notes.map(n => noteToNumber(n));
+  const noteNumbers = notes.map((n) => noteToNumber(n));
   const baseNoteNumber = Math.min(...noteNumbers);
   const baseNote = noteFromNumber(baseNoteNumber);
   const structure = Array(11)
     .fill(null)
     .map((_, idx) => (idx + 1) as FormElement)
-    .filter(distance => {
-      return noteNumbers.some(n => (n - baseNoteNumber) % 12 === distance);
+    .filter((distance) => {
+      return noteNumbers.some((n) => (n - baseNoteNumber) % 12 === distance);
     });
 
   const estimated = (Object.keys(patterns) as (keyof typeof patterns)[]).map(
-    key => ({
+    (key) => ({
       label: key,
       score: estimate(structure, patterns[key]),
     }),
@@ -71,11 +72,11 @@ const patterns: { [key: string]: Form } = {
 function estimate(structure: Form, chord: Form): number {
   const allFormElements = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as Form;
   return allFormElements
-    .map(distance => {
+    .map((distance) => {
       if (structure.includes(distance)) {
         if (chord.includes(distance))
-          return 1 / allFormElements.filter(k => chord.includes(k)).length;
-        return -1 / allFormElements.filter(k => !chord.includes(k)).length;
+          return 1 / allFormElements.filter((k) => chord.includes(k)).length;
+        return -1 / allFormElements.filter((k) => !chord.includes(k)).length;
       }
       return 0;
     })

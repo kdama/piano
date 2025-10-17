@@ -1,4 +1,5 @@
-import { Key, Note, transpose } from "./Note";
+import type { Note } from "./Note";
+import { Keys, transpose } from "./Note";
 
 interface KeyMap {
   keys: string[];
@@ -7,7 +8,7 @@ interface KeyMap {
 
 const keyMaps: KeyMap[] = [
   {
-    firstNote: { key: Key.C, octave: 3 },
+    firstNote: { key: Keys.C, octave: 3 },
     keys: [
       "z",
       "s",
@@ -31,7 +32,7 @@ const keyMaps: KeyMap[] = [
     ],
   },
   {
-    firstNote: { key: Key.C, octave: 4 },
+    firstNote: { key: Keys.C, octave: 4 },
     keys: [
       "q",
       "2",
@@ -56,7 +57,7 @@ const keyMaps: KeyMap[] = [
     ],
   },
   {
-    firstNote: { key: Key.A, octave: 5 },
+    firstNote: { key: Keys.A, octave: 5 },
     keys: ["Enter"],
   },
 ];
@@ -66,7 +67,7 @@ export function keyboardEventToNote(
   transposee: number,
 ): Note | undefined {
   if (event.repeat) return;
-  const keyMap = keyMaps.find(km => km.keys.includes(event.key));
+  const keyMap = keyMaps.find((km) => km.keys.includes(event.key));
   if (!keyMap) return;
   const index = keyMap.keys.indexOf(event.key);
   return transpose(keyMap.firstNote, index + transposee);

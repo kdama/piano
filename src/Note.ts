@@ -3,47 +3,48 @@ export interface Note {
   octave: number;
 }
 
-export enum Key {
-  C = "C",
-  CSharp = "C#",
-  D = "D",
-  DSharp = "D#",
-  E = "E",
-  F = "F",
-  FSharp = "F#",
-  G = "G",
-  GSharp = "G#",
-  A = "A",
-  ASharp = "A#",
-  B = "B",
-}
+export const Keys = {
+  C: "C",
+  CSharp: "C#",
+  D: "D",
+  DSharp: "D#",
+  E: "E",
+  F: "F",
+  FSharp: "F#",
+  G: "G",
+  GSharp: "G#",
+  A: "A",
+  ASharp: "A#",
+  B: "B",
+} as const;
+export type Key = (typeof Keys)[keyof typeof Keys];
 
 export function noteToNumber(note: Note): number {
   // { key: C, octave: -1 } -> 0
   switch (note.key) {
-    case Key.C:
+    case Keys.C:
       return note.octave * 12 + 0 + 12;
-    case Key.CSharp:
+    case Keys.CSharp:
       return note.octave * 12 + 1 + 12;
-    case Key.D:
+    case Keys.D:
       return note.octave * 12 + 2 + 12;
-    case Key.DSharp:
+    case Keys.DSharp:
       return note.octave * 12 + 3 + 12;
-    case Key.E:
+    case Keys.E:
       return note.octave * 12 + 4 + 12;
-    case Key.F:
+    case Keys.F:
       return note.octave * 12 + 5 + 12;
-    case Key.FSharp:
+    case Keys.FSharp:
       return note.octave * 12 + 6 + 12;
-    case Key.G:
+    case Keys.G:
       return note.octave * 12 + 7 + 12;
-    case Key.GSharp:
+    case Keys.GSharp:
       return note.octave * 12 + 8 + 12;
-    case Key.A:
+    case Keys.A:
       return note.octave * 12 + 9 + 12;
-    case Key.ASharp:
+    case Keys.ASharp:
       return note.octave * 12 + 10 + 12;
-    case Key.B:
+    case Keys.B:
       return note.octave * 12 + 11 + 12;
   }
 }
@@ -53,32 +54,32 @@ export function noteFromNumber(noteNumber: number): Note {
   const octave = Math.floor(noteNumber / 12) - 1;
   switch (noteNumber % 12) {
     case 0:
-      return { key: Key.C, octave };
+      return { key: Keys.C, octave };
     case 1:
-      return { key: Key.CSharp, octave };
+      return { key: Keys.CSharp, octave };
     case 2:
-      return { key: Key.D, octave };
+      return { key: Keys.D, octave };
     case 3:
-      return { key: Key.DSharp, octave };
+      return { key: Keys.DSharp, octave };
     case 4:
-      return { key: Key.E, octave };
+      return { key: Keys.E, octave };
     case 5:
-      return { key: Key.F, octave };
+      return { key: Keys.F, octave };
     case 6:
-      return { key: Key.FSharp, octave };
+      return { key: Keys.FSharp, octave };
     case 7:
-      return { key: Key.G, octave };
+      return { key: Keys.G, octave };
     case 8:
-      return { key: Key.GSharp, octave };
+      return { key: Keys.GSharp, octave };
     case 9:
-      return { key: Key.A, octave };
+      return { key: Keys.A, octave };
     case 10:
-      return { key: Key.ASharp, octave };
+      return { key: Keys.ASharp, octave };
     case 11:
-      return { key: Key.B, octave };
+      return { key: Keys.B, octave };
     default:
       // TODO: error
-      return { key: Key.C, octave: 0 };
+      return { key: Keys.C, octave: 0 };
   }
 }
 
