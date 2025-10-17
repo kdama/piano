@@ -30,7 +30,7 @@ export default function App() {
       release,
       transpose,
     ),
-    [logs, playingNotesMap],
+    [logs, playingNotesMap, release, transpose],
   );
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleKeyUp = useCallback(
@@ -41,7 +41,7 @@ export default function App() {
       setPlayingNotesMap,
       transpose,
     ),
-    [logs, playingNotesMap],
+    [logs, playingNotesMap, transpose],
   );
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSelect = useCallback(createHandleSelect(setInstrument), []);
@@ -117,6 +117,10 @@ function createHandleKeyDown(
   transpose: number,
 ) {
   return async (event: React.KeyboardEvent) => {
+    if (isEventTargetInput(event)) {
+      return;
+    }
+
     const note = keyboardEventToNote(event, transpose);
     if (note) {
       console.log(noteToString(note));
@@ -143,6 +147,10 @@ function createHandleKeyUp(
   transpose: number,
 ) {
   return async (event: React.KeyboardEvent) => {
+    if (isEventTargetInput(event)) {
+      return;
+    }
+
     const note = keyboardEventToNote(event, transpose);
     if (note) {
       console.log(noteToString(note));
@@ -185,6 +193,21 @@ async function stop(
 
 function createActivate(instrumentName: InstrumentName) {
   return async () => {
-    player = await instrument(new AudioContext() as any, instrumentName);
+    player = await instrument(new AudioContext(), instrumentName);
   };
+}
+
+function isEventTargetInput(event: React.KeyboardEvent): boolean {
+  // ignore if focused on input elements
+  const target = event.target as HTMLElement | null;
+  const tag = target?.tagName?.toLowerCase() ?? "";
+  if (
+    tag === "input" ||
+    tag === "select" ||
+    tag === "textarea" ||
+    target?.isContentEditable
+  ) {
+    return true;
+  }
+  return false;
 }
